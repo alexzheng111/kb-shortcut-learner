@@ -1,5 +1,19 @@
 import * as vscode from 'vscode';
 
+export class ShortcutProvider implements vscode.TreeDataProvider<Shortcut> {
+    getTreeItem(element: Shortcut): vscode.TreeItem {
+        return element;
+    }
+
+    getChildren(element?: Shortcut): Thenable<Shortcut[]> {
+        return Promise.resolve([]);
+    }
+
+    // TODO: Method to return all the keybindings
+    private getKeyBindingsInJSON(keybindingsJsonPath: string): Shortcut[] {
+        throw new Error("Not Implemented");
+    }
+}
 
 /**
  * Class wrapping the shortcut items
