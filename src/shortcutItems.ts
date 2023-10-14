@@ -4,7 +4,6 @@ import * as path from 'path';
 import { macOSKeybindings } from './macosKeybindings';
 
 export class ShortcutProvider implements vscode.TreeDataProvider<Shortcut> {
-    constructor(private workspaceRoot: string) { }
 
     getTreeItem(element: Shortcut): vscode.TreeItem {
         return element;

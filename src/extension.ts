@@ -15,7 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
 		? vscode.workspace.workspaceFolders[0].uri.fsPath
 		: ""; // TODO: This is bad. The false value is empty string, but is undefined in the docs
 
-	const shortcutProvider = new ShortcutProvider(rootPath);
+	const shortcutProvider = new ShortcutProvider();
 
 	vscode.window.registerTreeDataProvider('keybindingsView', shortcutProvider);
 }
