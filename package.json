@@ -15,39 +15,18 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "package-explorer",
-          "title": "Package Explorer",
+          "id": "keybindings",
+          "title": "Keybindings",
           "icon": "$(record-keys)"
         }
       ]
     },
-    "commands": [
-      {
-        "command": "kb-shortcut-learner.helloWorld",
-        "title": "Hello World"
-      },
-      {
-        "command": "kb-shortcut-learner.showTime",
-        "title": "Show Time"
-      },
-      {
-        "command": "nodeDependencies.refreshEntry",
-        "title": "Refresh",
-        "icon": {
-          "light": "resources/light/refresh.svg",
-          "dark": "resources/dark/refresh.svg"
-        }
-      }
-    ],
+    "commands": [],
     "views": {
-      "package-explorer": [
+      "keybindings": [
         {
-          "id": "nodeDependencies",
-          "name": "Node Dependencies"
-        },
-        {
-          "id": "keybindings",
-          "name": "MacOS Keybindings"
+          "id": "keybindingsView",
+          "name": "Keybindings"
         }
       ]
     }

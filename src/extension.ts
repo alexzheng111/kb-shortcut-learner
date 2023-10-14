@@ -1,7 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { NodeDependenciesProvider } from './nodeDependencies';
 import { ShortcutProvider } from './shortcutItems';
 
 // This method is called when your extension is activated
@@ -12,35 +11,13 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "kb-shortcut-learner" is now active!');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('kb-shortcut-learner.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello VSCode!');
-	});
-
-	let showTime = vscode.commands.registerCommand('kb-shortcut-learner.showTime', () => {
-		let currentTime = new Date();
-		vscode.window.showInformationMessage(`The current time is ${currentTime.toISOString()}`);
-	});
-
-	context.subscriptions.push(disposable);
-	context.subscriptions.push(showTime);
-
 	const rootPath = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0
 		? vscode.workspace.workspaceFolders[0].uri.fsPath
 		: ""; // TODO: This is bad. The false value is empty string, but is undefined in the docs
-	const nodeDependenciesProvider = new NodeDependenciesProvider(rootPath);
+
 	const shortcutProvider = new ShortcutProvider(rootPath);
 
-	vscode.window.registerTreeDataProvider('keybindings', shortcutProvider);
-
-	vscode.window.registerTreeDataProvider('nodeDependencies', nodeDependenciesProvider);
-	vscode.commands.registerCommand('nodeDependencies.refreshEntry', () => {
-		nodeDependenciesProvider.refresh();
-	});
+	vscode.window.registerTreeDataProvider('keybindingsView', shortcutProvider);
 }
 
 // This method is called when your extension is deactivated
