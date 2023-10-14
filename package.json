@@ -44,6 +44,10 @@
         {
           "id": "nodeDependencies",
           "name": "Node Dependencies"
+        },
+        {
+          "id": "keybindings",
+          "name": "MacOS Keybindings"
         }
       ]
     }

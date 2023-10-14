@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { NodeDependenciesProvider } from './nodeDependencies';
+import { ShortcutProvider } from './shortcutItems';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -32,6 +33,10 @@ export function activate(context: vscode.ExtensionContext) {
 		? vscode.workspace.workspaceFolders[0].uri.fsPath
 		: ""; // TODO: This is bad. The false value is empty string, but is undefined in the docs
 	const nodeDependenciesProvider = new NodeDependenciesProvider(rootPath);
+	const shortcutProvider = new ShortcutProvider(rootPath);
+
+	vscode.window.registerTreeDataProvider('keybindings', shortcutProvider);
+
 	vscode.window.registerTreeDataProvider('nodeDependencies', nodeDependenciesProvider);
 	vscode.commands.registerCommand('nodeDependencies.refreshEntry', () => {
 		nodeDependenciesProvider.refresh();

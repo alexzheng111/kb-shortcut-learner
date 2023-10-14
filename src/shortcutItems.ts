@@ -1,17 +1,46 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
+import { macOSKeybindings } from './macosKeybindings';
 
 export class ShortcutProvider implements vscode.TreeDataProvider<Shortcut> {
+    constructor(private workspaceRoot: string) { }
+
     getTreeItem(element: Shortcut): vscode.TreeItem {
         return element;
     }
 
     getChildren(element?: Shortcut): Thenable<Shortcut[]> {
-        return Promise.resolve([]);
+        if (!element) {
+            // Only root shortcuts
+            return Promise.resolve(this.getKeyBindingsInJSON());
+        } else {
+            // There should not be any children
+            return Promise.resolve([]);
+        }
     }
 
-    // TODO: Method to return all the keybindings
-    private getKeyBindingsInJSON(keybindingsJsonPath: string): Shortcut[] {
-        throw new Error("Not Implemented");
+
+    /**
+     * Converts macOS keybindings to a list of Shortcut objects
+     * @date 10/14/2023 - 3:41:18 PM
+     *
+     * @private
+     * @returns {Shortcut[]}
+     */
+    private getKeyBindingsInJSON(): Shortcut[] {
+        // TODO: Needs to replace the special characters
+        // TODO: Needs to handle when commands have arguments
+        return macOSKeybindings.map(shortcut => new Shortcut(shortcut.key, shortcut.command, vscode.TreeItemCollapsibleState.None));
+    }
+
+    private pathExists(path: string): boolean {
+        try {
+            fs.readFileSync(path);
+        } catch {
+            return false;
+        }
+        return true;
     }
 }
 
