@@ -23,14 +23,36 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<Depende
 
     constructor(private workspaceRoot: string) { }
 
+
+    /**
+     * Refresh the view on a change in package.json (not part of the interface, just calls the onDidChangeTreeData)
+     * @date 10/13/2023 - 8:03:30 PM
+     */
     refresh(): void {
         this._onDidChangeTreeData.fire();
     }
 
+    /**
+     * Get tree element
+     * @date 10/13/2023 - 8:02:39 PM
+     *
+     * @param {Dependency} element - dependency element
+     * @returns {vscode.TreeItem} - dependency as a treeItem
+     */
     getTreeItem(element: Dependency): vscode.TreeItem {
         return element;
     }
 
+
+    /**
+     * Get the children of the provided element as a resolved promise.
+     * If the element is not provided, get the root element's children.
+     * This implements the interface of TreeDataProvider, which runs on a dropdown of a TreeData element.
+     * @date 10/13/2023 - 8:04:24 PM
+     *
+     * @param {?Dependency} [element] - nullable Dependency element
+     * @returns {Thenable<Dependency[]>} - The list of child Dependencies
+     */
     getChildren(element?: Dependency): Thenable<Dependency[]> {
         if (!this.workspaceRoot) {
             vscode.window.showInformationMessage('No dependency in empty workspace');
@@ -54,11 +76,18 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<Depende
         }
     }
 
+
     /**
-     * Given the path to package.json, read all its dependencies and devDependencies.
+     * Get the dependencies at the package.json path as a list
+     * @date 10/13/2023 - 8:06:51 PM
+     *
+     * @private
+     * @param {string} packageJsonPath
+     * @returns {Dependency[]}
      */
     private getDepsInPackageJson(packageJsonPath: string): Dependency[] {
         if (this.pathExists(packageJsonPath)) {
+            // Function to convert a module_name to a dependency
             const toDep = (moduleName: string, version: string): Dependency => {
                 if (this.pathExists(path.join(this.workspaceRoot, 'node_modules', moduleName))) {
                     return new Dependency(
@@ -106,6 +135,15 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<Depende
     }
 }
 
+
+/**
+ * Class for the node dependencies
+ * @date 10/13/2023 - 8:33:45 PM
+ *
+ * @class Dependency
+ * @typedef {Dependency}
+ * @extends {vscode.TreeItem}
+ */
 class Dependency extends vscode.TreeItem {
     constructor(
         public readonly label: string,

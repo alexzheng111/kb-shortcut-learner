@@ -12,6 +12,15 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "package-explorer",
+          "title": "Package Explorer",
+          "icon": "$(record-keys)"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "kb-shortcut-learner.helloWorld",
@@ -31,7 +40,7 @@
       }
     ],
     "views": {
-      "explorer": [
+      "package-explorer": [
         {
           "id": "nodeDependencies",
           "name": "Node Dependencies"
