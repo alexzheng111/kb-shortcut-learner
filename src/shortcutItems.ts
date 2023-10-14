@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { macOSKeybindings } from './macosKeybindings';
+import { replaceAllSpecialChars } from './specialChars';
 
 export class ShortcutProvider implements vscode.TreeDataProvider<Shortcut> {
 
@@ -30,7 +31,7 @@ export class ShortcutProvider implements vscode.TreeDataProvider<Shortcut> {
     private getKeyBindingsInJSON(): Shortcut[] {
         // TODO: Needs to replace the special characters
         // TODO: Needs to handle when commands have arguments
-        return macOSKeybindings.map(shortcut => new Shortcut(shortcut.key, shortcut.command, vscode.TreeItemCollapsibleState.None));
+        return macOSKeybindings.map(shortcut => new Shortcut(replaceAllSpecialChars(shortcut.key).replace(/\+/g, " + "), shortcut.command, vscode.TreeItemCollapsibleState.None));
     }
 
     private pathExists(path: string): boolean {
